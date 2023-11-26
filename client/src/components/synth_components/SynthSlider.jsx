@@ -2,17 +2,15 @@ import * as Slider from "@radix-ui/react-slider";
 
 import "./SynthSlider.css"
 
-export default function SynthSlider(props) {
+export default function SynthSlider() {
   return (
-    <form>
+    <form className="w-100">
       <Slider.Root
         className="SliderRoot"
-        value={[props.value]}
-        defaultValue={[props.defaultValue || 50]}
-        max={props.max} 
-        min={props.min}
+        defaultValue={[50]}
+        max={100} 
+        min={1}
         step={1}
-        onValueChange={props.onValueChange}
       >
         <Slider.Track className="SliderTrack">
           <Slider.Range className="SliderRange" />

@@ -1,3 +1,5 @@
+import SynthSlider from "./SynthSlider"
+
 export default function UnisonSelect() {
   return (
     <fieldset className="d-flex flex-column align-items-end text-end col-4">
@@ -32,14 +34,7 @@ export default function UnisonSelect() {
         />
         <label className="form-check-label">5</label>
       </div>
-      <input
-        id="spread"
-        className="form-range"
-        type="range"
-        value="25"
-        min="0"
-        max="50"
-      />
+      <SynthSlider />
     </fieldset>
   );
 }
