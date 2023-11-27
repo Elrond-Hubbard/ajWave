@@ -4,7 +4,7 @@ export default function AmpEnvelope() {
   return (
     <fieldset className="col-6">
       <legend className="text-center">AMPLITUDE</legend>
-      <div className="pe-5 d-flex flex-column">
+      <div className="pe-4 d-flex flex-column">
         <label>ATTACK</label>
         <SynthSlider />
         <label>DECAY</label>

@@ -1,18 +1,19 @@
-import { useState } from 'react'
-import { Outlet } from "react-router-dom"
+import { useState } from "react";
+import { Outlet } from "react-router-dom";
 
-import Header from './components/Header'
+import Header from "./components/Header";
 
-import './App.css'
+import "./App.css";
 
 function App() {
-
   return (
     <>
       <Header />
-      <Outlet />
+      <main className="mh-100 bg-dark">
+        <Outlet />
+      </main>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
