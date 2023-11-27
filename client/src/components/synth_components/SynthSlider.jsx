@@ -8,14 +8,13 @@ export default function SynthSlider(props) {
 
   return (
     <form className="w-100">
-      <p>{props.value}</p>
       <Slider.Root
         className="SliderRoot"
         value={[props.value]}
         min={props.min}
         max={props.max}
         step={props.step || 1}
-        onValueChange={(newValue) => props.setValue(newValue)}
+        onValueChange={(newValue) => props.setValue(newValue[0])}
       >
         <Slider.Track className="SliderTrack">
           <Slider.Range className="SliderRange" />
