@@ -8,29 +8,11 @@ import Filter from "../components/synth_components/Filter";
 
 import "./Synthesizer.css";
 
-import synth from "../tone-config/synthconfig";
 import AudioKeys from "audiokeys";
 
-const keyboard = new AudioKeys({
-  rows: 2,
-  polyphony: 1,
-  priority: "last",
-  octave: -2,
-});
-let currentKeyDown;
-let currentKeyUp;
-keyboard.down((note) => {
-  currentKeyDown = note.note;
-  synth.triggerAttack(note.frequency);
-});
-keyboard.up((note) => {
-  currentKeyUp = note.note;
-  if (currentKeyUp === currentKeyDown) {
-    synth.triggerRelease();
-  }
-});
-
 export default function Synthesizer(props) {
+  const [synth, setSynth] = useState(props.synth);
+
   const [waveform, setWaveform] = useState(synth.oscillator.type);
   const [unison, setUnison] = useState(synth.oscillator.spread);
   const [count, setCount] = useState(synth.oscillator.count);
@@ -63,7 +45,21 @@ export default function Synthesizer(props) {
     synth.filterEnvelope.baseFrequency = cutoff;
     synth.filter.Q.value = resonance;
   }),
-    [filtAttack, filtDecay, filtSustain, filtRelease, cutoff, resonance];
+    [
+      waveform,
+      unison,
+      count,
+      ampAttack,
+      ampDecay,
+      ampSustain,
+      ampRelease,
+      filtAttack,
+      filtDecay,
+      filtSustain,
+      filtRelease,
+      cutoff,
+      resonance,
+    ];
 
   return (
     <>
@@ -77,7 +73,12 @@ export default function Synthesizer(props) {
         <section className="pb-3 d-flex flex-row">
           <WaveformSelect setWaveform={setWaveform} waveform={waveform} />
           <div className="col-4"></div>
-          <UnisonSelect unison={unison} setUnison={setUnison} setCount={setCount} count={count} />
+          <UnisonSelect
+            unison={unison}
+            setUnison={setUnison}
+            setCount={setCount}
+            count={count}
+          />
         </section>
         {/* ENVELOPE */}
         <section className="d-flex pb-3">

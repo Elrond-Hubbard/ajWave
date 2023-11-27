@@ -1,14 +1,47 @@
 import "./index.css";
 
 import Synthesizer from "../components/Synthesizer";
+import { synth1, synth2, synth3 } from "../tone_config/synthconfig";
+import AudioKeys from "audiokeys";
+
+const keyboard = new AudioKeys({
+  rows: 2,
+  polyphony: 1,
+  priority: "last",
+  octave: -2,
+});
+let currentKeyDown;
+let currentKeyUp;
+keyboard.down((note) => {
+  currentKeyDown = note.note;
+  synth2.triggerAttack(note.frequency);
+});
+keyboard.up((note) => {
+  currentKeyUp = note.note;
+  if (currentKeyUp === currentKeyDown) {
+    synth2.triggerRelease();
+  }
+});
 
 export default function Workstation() {
   return (
     <>
       <div className="px-5 d-flex justify-content-center">
-        {/* <Synthesizer title="FM SYNTH" style={{background: "lightsalmon"}}/> */}
-        <Synthesizer title="MONOSYNTH" style={{background: "lightblue"}}/>
-        {/* <Synthesizer title="AM SYNTH" style={{background: "lightgreen"}}/> */}
+        <Synthesizer
+          synth={synth1}
+          title="FM SYNTH"
+          style={{ background: "lightsalmon" }}
+        />
+        <Synthesizer
+          synth={synth2}
+          title="MONOSYNTH"
+          style={{ background: "lightblue" }}
+        />
+        <Synthesizer
+          synth={synth3}
+          title="AM SYNTH"
+          style={{ background: "lightgreen" }}
+        />
       </div>
     </>
   );
