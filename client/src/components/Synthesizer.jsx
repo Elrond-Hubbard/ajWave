@@ -33,6 +33,9 @@ keyboard.up((note) => {
 
 export default function Synthesizer(props) {
 
+  const [waveform, setWaveform] = useState(synth.oscillator.type)
+  const [count, setCount] = useState(synth.oscillator.count)
+
   const [ampAttack, setAmpAttack] = useState(synth.envelope.attack);
   const [ampDecay, setAmpDecay] = useState(synth.envelope.decay);
   const [ampSustain, setAmpSustain] = useState(synth.envelope.sustain);
@@ -47,6 +50,8 @@ export default function Synthesizer(props) {
   const [resonance, setResonance] = useState(synth.filter.Q.value);
 
   useEffect(() => {
+    synth.oscillator.type = waveform;
+    synth.oscillator.count = count;
     synth.envelope.attack = ampAttack;
     synth.envelope.decay = ampDecay;
     synth.envelope.sustain = ampSustain;
@@ -70,9 +75,9 @@ export default function Synthesizer(props) {
         <h2 className="text-center">{props.title}</h2>
         {/* OSCILLATOR */}
         <section className="pb-3 d-flex flex-row">
-          <WaveformSelect />
+          <WaveformSelect setWaveform={setWaveform} waveform={waveform}/>
           <div className="col-4"></div>
-          <UnisonSelect />
+          <UnisonSelect setCount={setCount} count={count}/>
         </section>
         {/* ENVELOPE */}
         <section className="d-flex pb-3">
