@@ -42,7 +42,13 @@ export default function UnisonSelect(props) {
           </label>
         </div>
       </RadioGroup.Root>
-      <SynthSlider />
+      <SynthSlider
+                  value={props.unison}
+                  min={0}
+                  max={50}
+                  step={1}
+                  setValue={props.setUnison}
+      />
     </fieldset>
   );
 }

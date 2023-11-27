@@ -30,11 +30,10 @@ keyboard.up((note) => {
   }
 });
 
-
 export default function Synthesizer(props) {
-
-  const [waveform, setWaveform] = useState(synth.oscillator.type)
-  const [count, setCount] = useState(synth.oscillator.count)
+  const [waveform, setWaveform] = useState(synth.oscillator.type);
+  const [unison, setUnison] = useState(synth.oscillator.spread);
+  const [count, setCount] = useState(synth.oscillator.count);
 
   const [ampAttack, setAmpAttack] = useState(synth.envelope.attack);
   const [ampDecay, setAmpDecay] = useState(synth.envelope.decay);
@@ -51,6 +50,7 @@ export default function Synthesizer(props) {
 
   useEffect(() => {
     synth.oscillator.type = waveform;
+    synth.oscillator.spread = unison;
     synth.oscillator.count = count;
     synth.envelope.attack = ampAttack;
     synth.envelope.decay = ampDecay;
@@ -75,9 +75,9 @@ export default function Synthesizer(props) {
         <h2 className="text-center">{props.title}</h2>
         {/* OSCILLATOR */}
         <section className="pb-3 d-flex flex-row">
-          <WaveformSelect setWaveform={setWaveform} waveform={waveform}/>
+          <WaveformSelect setWaveform={setWaveform} waveform={waveform} />
           <div className="col-4"></div>
-          <UnisonSelect setCount={setCount} count={count}/>
+          <UnisonSelect unison={unison} setUnison={setUnison} setCount={setCount} count={count} />
         </section>
         {/* ENVELOPE */}
         <section className="d-flex pb-3">
