@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import socket from "../tone_config/socketconfig";
 
 import WaveformSelect from "../components/synth_components/WaveformSelect";
 import UnisonSelect from "../components/synth_components/UnisonSelect";
@@ -8,28 +9,25 @@ import Filter from "../components/synth_components/Filter";
 
 import "./Synthesizer.css";
 
-import AudioKeys from "audiokeys";
-
 export default function Synthesizer(props) {
+  // Currently selected synth and slider values
   const [synth, setSynth] = useState(props.synth);
-
+  const [synthState, setSynthState] = useState({})
   const [waveform, setWaveform] = useState(synth.oscillator.type);
   const [unison, setUnison] = useState(synth.oscillator.spread);
   const [count, setCount] = useState(synth.oscillator.count);
-
   const [ampAttack, setAmpAttack] = useState(synth.envelope.attack);
   const [ampDecay, setAmpDecay] = useState(synth.envelope.decay);
   const [ampSustain, setAmpSustain] = useState(synth.envelope.sustain);
   const [ampRelease, setAmpRelease] = useState(synth.envelope.release);
-
   const [filtAttack, setFiltAttack] = useState(synth.filterEnvelope.attack);
   const [filtDecay, setFiltDecay] = useState(synth.filterEnvelope.decay);
   const [filtSustain, setFiltSustain] = useState(synth.filterEnvelope.sustain);
   const [filtRelease, setFiltRelease] = useState(synth.filterEnvelope.release);
-
   const [cutoff, setCutoff] = useState(synth.filterEnvelope.baseFrequency);
   const [resonance, setResonance] = useState(synth.filter.Q.value);
 
+  // Update synth using slider values
   useEffect(() => {
     synth.oscillator.type = waveform;
     synth.oscillator.spread = unison;
@@ -44,8 +42,25 @@ export default function Synthesizer(props) {
     synth.filterEnvelope.release = filtRelease;
     synth.filterEnvelope.baseFrequency = cutoff;
     synth.filter.Q.value = resonance;
-  }),
-    [
+  }, [
+    waveform,
+    unison,
+    count,
+    ampAttack,
+    ampDecay,
+    ampSustain,
+    ampRelease,
+    filtAttack,
+    filtDecay,
+    filtSustain,
+    filtRelease,
+    cutoff,
+    resonance,
+  ]);
+
+  useEffect(() => {
+    // Emit synth state to server
+    socket.emit("updateSynthState", {
       waveform,
       unison,
       count,
@@ -59,7 +74,61 @@ export default function Synthesizer(props) {
       filtRelease,
       cutoff,
       resonance,
-    ];
+    });
+    // retrieve broadcast synth state from server
+    socket.on("synthStateChanged", (newSynthState) => {
+      setSynthState(newSynthState)
+      synth.oscillator.type = newSynthState.waveform;
+      synth.oscillator.spread = newSynthState.unison;
+      synth.oscillator.count = newSynthState.count;
+      synth.envelope.attack = newSynthState.ampAttack;
+      synth.envelope.decay = newSynthState.ampDecay;
+      synth.envelope.sustain = newSynthState.ampSustain;
+      synth.envelope.release = newSynthState.ampRelease;
+      synth.filterEnvelope.attack = newSynthState.filtAttack;
+      synth.filterEnvelope.decay = newSynthState.filtDecay;
+      synth.filterEnvelope.sustain = newSynthState.filtSustain;
+      synth.filterEnvelope.release = newSynthState.filtRelease;
+      synth.filterEnvelope.baseFrequency = newSynthState.cutoff;
+      synth.filter.Q.value = newSynthState.resonance;
+    })
+    return () => {
+      // remove the event listener when the component unmounts
+      socket.off("synthStateChanged");
+    };
+  }, [
+    waveform,
+    unison,
+    count,
+    ampAttack,
+    ampDecay,
+    ampSustain,
+    ampRelease,
+    filtAttack,
+    filtDecay,
+    filtSustain,
+    filtRelease,
+    cutoff,
+    resonance,
+  ]);
+
+  useEffect(() => {
+    setWaveform(synth.oscillator.type)
+    setUnison(synth.oscillator.spread)
+    setCount(synth.oscillator.count)
+    setAmpAttack(synth.envelope.attack)
+    setAmpDecay(synth.envelope.decay)
+    setAmpSustain(synth.envelope.sustain)
+    setAmpRelease(synth.envelope.release)
+    setFiltAttack(synth.filterEnvelope.attack)
+    setFiltDecay(synth.filterEnvelope.decay)
+    setFiltSustain(synth.filterEnvelope.sustain)
+    setFiltRelease(synth.filterEnvelope.release)
+    setCutoff(synth.filterEnvelope.baseFrequency)
+    setResonance(synth.filter.Q.value)
+  }, [
+    synthState
+  ])
 
   return (
     <>

@@ -14,16 +14,21 @@ let currentKeyDown;
 let currentKeyUp;
 keyboard.down((note) => {
   currentKeyDown = note.note;
+  synth1.triggerAttack(note.frequency);
   synth2.triggerAttack(note.frequency);
+  synth3.triggerAttack(note.frequency);
 });
 keyboard.up((note) => {
   currentKeyUp = note.note;
   if (currentKeyUp === currentKeyDown) {
+    synth1.triggerRelease();
     synth2.triggerRelease();
+    synth3.triggerRelease();
   }
 });
 
 export default function Workstation() {
+
   return (
     <>
       <div className="px-5 d-flex justify-content-center">
