@@ -13,9 +13,9 @@ app.use(express.urlencoded({extended: true}))
 const server = require('http').createServer(app)
 
 
-db.once('open', () => {
+// db.once('open', () => {
     server.listen(PORT, () => console.log(`Server is listening on port ${PORT}`))
-})
+// })
 
 const io = require('socket.io')(server, {cors: {origin: 'http://localhost:3001'}});
 
