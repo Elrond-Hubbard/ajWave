@@ -10,53 +10,26 @@ import Filter from "../components/synth_components/Filter";
 import "./Synthesizer.css";
 
 export default function Synthesizer(props) {
-  // Currently selected synth
+  // Currently selected synth and slider values
   const [synth, setSynth] = useState(props.synth);
-  // Slider values used to interface with synth
   const [waveform, setWaveform] = useState(synth.oscillator.type);
-  const [incomingWaveform, setIncomingWaveform] = useState(false);
-
   const [unison, setUnison] = useState(synth.oscillator.spread);
-  const [incomingUnison, setIncomingUnison] = useState(false);
-
   const [count, setCount] = useState(synth.oscillator.count);
-  const [incomingCount, setIncomingCount] = useState(false);
-
   const [ampAttack, setAmpAttack] = useState(synth.envelope.attack);
-  const [incomingAmpAttack, setIncomingAmpAttack] = useState(false);
-
   const [ampDecay, setAmpDecay] = useState(synth.envelope.decay);
-  const [incomingAmpDecay, setIncomingAmpDecay] = useState(false);
-
   const [ampSustain, setAmpSustain] = useState(synth.envelope.sustain);
-  const [incomingAmpSustain, setIncomingAmpSustain] = useState(false);
-
   const [ampRelease, setAmpRelease] = useState(synth.envelope.release);
-  const [incomingAmpRelease, setIncomingAmpRelease] = useState(false);
-
   const [filtAttack, setFiltAttack] = useState(synth.filterEnvelope.attack);
-  const [incomingFiltAttack, setIncomingFiltAttack] = useState(false);
-
   const [filtDecay, setFiltDecay] = useState(synth.filterEnvelope.decay);
-  const [incomingFiltDecay, setIncomingFiltDecay] = useState(false);
-
   const [filtSustain, setFiltSustain] = useState(synth.filterEnvelope.sustain);
-  const [incomingFiltSustain, setIncomingFiltSustain] = useState(false);
-
   const [filtRelease, setFiltRelease] = useState(synth.filterEnvelope.release);
-  const [incomingFiltRelease, setIncomingFiltRelease] = useState(false);
-
   const [cutoff, setCutoff] = useState(synth.filterEnvelope.baseFrequency);
-  const [incomingCutoff, setIncomingCutoff] = useState(false);
-
   const [resonance, setResonance] = useState(synth.filter.Q.value);
-  const [incomingResonance, setIncomingResonance] = useState(false);
-
   const [incomingBroadcast, setIncomingBroadcast] = useState(false);
   const [socketTest, setSocketTest] = useState("");
 
+  // Update synth using slider values
   useEffect(() => {
-    // Update synth using slider values
     synth.oscillator.type = waveform;
     synth.oscillator.spread = unison;
     synth.oscillator.count = count;
@@ -70,114 +43,61 @@ export default function Synthesizer(props) {
     synth.filterEnvelope.release = filtRelease;
     synth.filterEnvelope.baseFrequency = cutoff;
     synth.filter.Q.value = resonance;
+  }, [
+    waveform,
+    unison,
+    count,
+    ampAttack,
+    ampDecay,
+    ampSustain,
+    ampRelease,
+    filtAttack,
+    filtDecay,
+    filtSustain,
+    filtRelease,
+    cutoff,
+    resonance,
+  ]);
+
+  useEffect(() => {
     // If there are no incoming broadcasts, send synth state to server
-    if (!incomingWaveform) {
-      socket.emit("waveform", waveform);
+    if (!incomingBroadcast) {
+      socket.emit("updateSynthState", {
+        waveform,
+        unison,
+        count,
+        ampAttack,
+        ampDecay,
+        ampSustain,
+        ampRelease,
+        filtAttack,
+        filtDecay,
+        filtSustain,
+        filtRelease,
+        cutoff,
+        resonance,
+      });
     }
-    if (!incomingUnison) {
-      socket.emit("unison", unison);
-    }
-    if (!incomingCount) {
-      socket.emit("count", count);
-    }
-    if (!incomingAmpAttack) {
-      socket.emit("ampAttack", ampAttack);
-    }
-    if (!incomingAmpDecay) {
-      socket.emit("ampDecay", ampDecay);
-    }
-    if (!incomingAmpSustain) {
-      socket.emit("ampSustain", ampSustain);
-    }
-    if (!incomingAmpRelease) {
-      socket.emit("ampRelease", ampRelease);
-    }
-    if (!incomingFiltAttack) {
-      socket.emit("filtAttack", filtAttack);
-    }
-    if (!incomingFiltDecay) {
-      socket.emit("filtDecay", filtDecay);
-    }
-    if (!incomingFiltSustain) {
-      socket.emit("filtSustain", filtSustain);
-    }
-    if (!incomingFiltRelease) {
-      socket.emit("filtRelease", filtRelease);
-    }
-    if (!incomingCutoff) {
-      socket.emit("cutoff", cutoff);
-    }
-    if (!incomingResonance) {
-      socket.emit("resonance", resonance);
-    }
-
-    // Set all broadcast checks to false
-    setIncomingWaveform(false);
-    setIncomingUnison(false);
-    setIncomingCount(false);
-    setIncomingAmpAttack(false);
-    setIncomingAmpDecay(false);
-    setIncomingAmpSustain(false);
-    setIncomingAmpRelease(false);
-    setIncomingFiltAttack(false);
-    setIncomingFiltDecay(false);
-    setIncomingFiltSustain(false);
-    setIncomingFiltRelease(false);
-    setIncomingCutoff(false);
-    setIncomingResonance(false);
-
+    setIncomingBroadcast(false)
     // retrieve broadcast synth state from server
-    socket.on("waveform", (data) => {
-      setWaveform(data);
-      setIncomingWaveform(true);
-    });
-    socket.on("unison", (data) => {
-      setUnison(data);
-      setIncomingUnison(true);
-    });
-    socket.on("count", (data) => {
-      setCount(data);
-      setIncomingCount(true);
-    });
-    socket.on("ampAttack", (data) => {
-      setAmpAttack(data);
-      setIncomingAmpAttack(true);
-    });
-    socket.on("ampDecay", (data) => {
-      setAmpDecay(data);
-      setIncomingAmpDecay(true);
-    });
-    socket.on("ampSustain", (data) => {
-      setAmpSustain(data);
-      setIncomingAmpSustain(true);
-    });
-    socket.on("ampRelease", (data) => {
-      setAmpRelease(data);
-      setIncomingAmpRelease(true);
-    });
-    socket.on("filtAttack", (data) => {
-      setFiltAttack(data);
-      setIncomingFiltAttack(true);
-    });
-    socket.on("filtDecay", (data) => {
-      setFiltDecay(data);
-      setIncomingFiltDecay(true);
-    });
-    socket.on("filtSustain", (data) => {
-      setFiltSustain(data);
-      setIncomingFiltSustain(true);
-    });
-    socket.on("filtRelease", (data) => {
-      setFiltRelease(data);
-      setIncomingFiltRelease(true);
-    });
-    socket.on("cutoff", (data) => {
-      setCutoff(data);
-      setIncomingCutoff(true);
-    });
-    socket.on("resonance", (data) => {
-      setResonance(data);
-      setIncomingResonance(true);
+    socket.on("synthStateChanged", (newSynthState) => {
+      // synth.oscillator.type = newSynthState.waveform;
+      // synth.oscillator.spread = newSynthState.unison;
+      // synth.oscillator.count = newSynthState.count;
+      // synth.envelope.attack = newSynthState.ampAttack;
+      // synth.envelope.decay = newSynthState.ampDecay;
+      // synth.envelope.sustain = newSynthState.ampSustain;
+      // synth.envelope.release = newSynthState.ampRelease;
+      // synth.filterEnvelope.attack = newSynthState.filtAttack;
+      // synth.filterEnvelope.decay = newSynthState.filtDecay;
+      // synth.filterEnvelope.sustain = newSynthState.filtSustain;
+      // synth.filterEnvelope.release = newSynthState.filtRelease;
+      // synth.filterEnvelope.baseFrequency = newSynthState.cutoff;
+      // synth.filter.Q.value = newSynthState.resonance;
+      setSocketTest(newSynthState.cutoff);
+      setCutoff(newSynthState.cutoff)
+      setResonance(newSynthState.resonance)
+      setIncomingBroadcast(true)
     });
     return () => {
       // remove the event listener when the component unmounts
@@ -198,6 +118,27 @@ export default function Synthesizer(props) {
     cutoff,
     resonance,
   ]);
+
+  useEffect(
+    () => {
+      // setWaveform(synth.oscillator.type)
+      // setUnison(synth.oscillator.spread)
+      // setCount(synth.oscillator.count)
+      // setAmpAttack(synth.envelope.attack)
+      // setAmpDecay(synth.envelope.decay)
+      // setAmpSustain(synth.envelope.sustain)
+      // setAmpRelease(synth.envelope.release)
+      // setFiltAttack(synth.filterEnvelope.attack)
+      // setFiltDecay(synth.filterEnvelope.decay)
+      // setFiltSustain(synth.filterEnvelope.sustain)
+      // setFiltRelease(synth.filterEnvelope.release)
+      // setCutoff(synth.filterEnvelope.baseFrequency)
+      // setResonance(synth.filter.Q.value)
+    },
+    [
+      // synth.filterEnvelope.baseFrequency
+    ]
+  );
 
   return (
     <>
