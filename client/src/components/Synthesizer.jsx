@@ -78,26 +78,24 @@ export default function Synthesizer(props) {
         resonance,
       });
     }
-    setIncomingBroadcast(false)
+    setIncomingBroadcast(false);
     // retrieve broadcast synth state from server
     socket.on("synthStateChanged", (newSynthState) => {
-      // synth.oscillator.type = newSynthState.waveform;
-      // synth.oscillator.spread = newSynthState.unison;
-      // synth.oscillator.count = newSynthState.count;
-      // synth.envelope.attack = newSynthState.ampAttack;
-      // synth.envelope.decay = newSynthState.ampDecay;
-      // synth.envelope.sustain = newSynthState.ampSustain;
-      // synth.envelope.release = newSynthState.ampRelease;
-      // synth.filterEnvelope.attack = newSynthState.filtAttack;
-      // synth.filterEnvelope.decay = newSynthState.filtDecay;
-      // synth.filterEnvelope.sustain = newSynthState.filtSustain;
-      // synth.filterEnvelope.release = newSynthState.filtRelease;
-      // synth.filterEnvelope.baseFrequency = newSynthState.cutoff;
-      // synth.filter.Q.value = newSynthState.resonance;
       setSocketTest(newSynthState.cutoff);
-      setCutoff(newSynthState.cutoff)
-      setResonance(newSynthState.resonance)
-      setIncomingBroadcast(true)
+      setWaveform(newSynthState.waveform);
+      setUnison(newSynthState.unison);
+      setCount(newSynthState.count);
+      setAmpAttack(newSynthState.ampAttack);
+      setAmpDecay(newSynthState.ampDecay);
+      setAmpSustain(newSynthState.ampSustain);
+      setAmpRelease(newSynthState.ampRelease);
+      setFiltAttack(newSynthState.filtAttack);
+      setFiltDecay(newSynthState.filtDecay);
+      setFiltSustain(newSynthState.filtSustain);
+      setFiltRelease(newSynthState.filtRelease);
+      setCutoff(newSynthState.cutoff);
+      setResonance(newSynthState.resonance);
+      setIncomingBroadcast(true);
     });
     return () => {
       // remove the event listener when the component unmounts
@@ -118,27 +116,6 @@ export default function Synthesizer(props) {
     cutoff,
     resonance,
   ]);
-
-  useEffect(
-    () => {
-      // setWaveform(synth.oscillator.type)
-      // setUnison(synth.oscillator.spread)
-      // setCount(synth.oscillator.count)
-      // setAmpAttack(synth.envelope.attack)
-      // setAmpDecay(synth.envelope.decay)
-      // setAmpSustain(synth.envelope.sustain)
-      // setAmpRelease(synth.envelope.release)
-      // setFiltAttack(synth.filterEnvelope.attack)
-      // setFiltDecay(synth.filterEnvelope.decay)
-      // setFiltSustain(synth.filterEnvelope.sustain)
-      // setFiltRelease(synth.filterEnvelope.release)
-      // setCutoff(synth.filterEnvelope.baseFrequency)
-      // setResonance(synth.filter.Q.value)
-    },
-    [
-      // synth.filterEnvelope.baseFrequency
-    ]
-  );
 
   return (
     <>
@@ -191,7 +168,7 @@ export default function Synthesizer(props) {
             setResonance={setResonance}
           />
         </section>
-        <h3>Socket Test: {socketTest}</h3>
+        <h3>Test: {props.test}</h3>
       </div>
     </>
   );

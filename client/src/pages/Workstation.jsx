@@ -1,8 +1,10 @@
+import { useState, useEffect } from "react";
 import "./index.css";
 
 import Synthesizer from "../components/Synthesizer";
 import { synth1, synth2, synth3 } from "../tone_config/synthconfig";
 import AudioKeys from "audiokeys";
+import * as Tone from "tone"
 
 const keyboard = new AudioKeys({
   rows: 2,
@@ -29,22 +31,29 @@ keyboard.up((note) => {
 
 export default function Workstation() {
 
+  const [currentKey, setCurrentKey] = useState(null)
+
+  keyboard.down((note) => {
+    setCurrentKey(Tone.Frequency(note.frequency).toNote())
+  })
+
   return (
     <>
       <div className="px-5 d-flex justify-content-center">
         <Synthesizer
           synth={synth1}
-          title="FM SYNTH"
+          title="FMSYNTH"
           style={{ background: "lightsalmon" }}
         />
         <Synthesizer
           synth={synth2}
           title="MONOSYNTH"
           style={{ background: "lightblue" }}
+          test={currentKey}
         />
         <Synthesizer
           synth={synth3}
-          title="AM SYNTH"
+          title="AMSYNTH"
           style={{ background: "lightgreen" }}
         />
       </div>
