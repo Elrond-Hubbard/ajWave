@@ -96,6 +96,7 @@ export default function Synthesizer(props) {
       // synth.filter.Q.value = newSynthState.resonance;
       setSocketTest(newSynthState.cutoff);
       setCutoff(newSynthState.cutoff)
+      setResonance(newSynthState.resonance)
       setIncomingBroadcast(true)
     });
     return () => {
@@ -117,10 +118,6 @@ export default function Synthesizer(props) {
     cutoff,
     resonance,
   ]);
-
-  useEffect(() => {
-    
-  })
 
   useEffect(
     () => {
@@ -194,7 +191,7 @@ export default function Synthesizer(props) {
             setResonance={setResonance}
           />
         </section>
-        <h1>Socket Test: {socketTest}</h1>
+        <h3>Socket Test: {socketTest}</h3>
       </div>
     </>
   );
