@@ -92,7 +92,6 @@ export default function Synthesizer(props) {
       // synth.filterEnvelope.baseFrequency = newSynthState.cutoff;
       // synth.filter.Q.value = newSynthState.resonance;
       setSocketTest(newSynthState.cutoff)
-      console.log(newSynthState.cutoff)
     })
     return () => {
       // remove the event listener when the component unmounts
