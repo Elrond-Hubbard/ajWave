@@ -127,7 +127,7 @@ export default function Synthesizer(props) {
     setCutoff(synth.filterEnvelope.baseFrequency)
     setResonance(synth.filter.Q.value)
   }, [
-    synthState
+    synth.filterEnvelope.baseFrequency
   ])
 
   return (
