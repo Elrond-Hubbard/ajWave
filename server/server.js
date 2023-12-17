@@ -4,6 +4,7 @@ const express = require("express")
 const app = express();
 const db = require('./config/connection')
 const PORT = process.env.PORT || 3000
+const path = require('path')
 // const router = require("./routes")
 
 app.use(express.json())
@@ -14,9 +15,9 @@ app.use(express.static(path.join(__dirname, '../client/dist')))
 const server = require('http').createServer(app)
 
 
-// db.once('open', () => {
+db.once('open', () => {
     server.listen(PORT, () => console.log(`Server is listening on port ${PORT}`))
-// })
+})
 
 const io = require('socket.io')(server, {cors: {origin: 'http://localhost:3001'}});
 
