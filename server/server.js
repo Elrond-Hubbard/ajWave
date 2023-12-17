@@ -33,6 +33,46 @@ function onConnected(socket) {
     socket.on('updateSynthState', (newSynthState) => {
         socket.broadcast.emit('synthStateChanged', newSynthState)
     })
+
+    socket.on('waveform', (waveform) => {
+        socket.broadcast.emit('waveform', waveform)
+    })
+    socket.on('unison', (unison) => {
+        socket.broadcast.emit('unison', unison)
+    })
+    socket.on('count', (count) => {
+        socket.broadcast.emit('count', count)
+    })
+    socket.on('ampAttack', (ampAttack) => {
+        socket.broadcast.emit('ampAttack', ampAttack)
+    })
+    socket.on('ampDecay', (ampDecay) => {
+        socket.broadcast.emit('ampDecay', ampDecay)
+    })
+    socket.on('ampSustain', (ampSustain) => {
+        socket.broadcast.emit('ampSustain', ampSustain)
+    })
+    socket.on('ampRelease', (ampRelease) => {
+        socket.broadcast.emit('ampRelease', ampRelease)
+    })
+    socket.on('filtAttack', (filtAttack) => {
+        socket.broadcast.emit('filtAttack', filtAttack)
+    })
+    socket.on('filtDecay', (filtDecay) => {
+        socket.broadcast.emit('filtDecay', filtDecay)
+    })
+    socket.on('filtSustain', (filtSustain) => {
+        socket.broadcast.emit('filtSustain', filtSustain)
+    })
+    socket.on('filtRelease', (filtRelease) => {
+        socket.broadcast.emit('filtRelease', filtRelease)
+    })
+    socket.on('cutoff', (cutoff) => {
+        socket.broadcast.emit('cutoff', cutoff)
+    })
+    socket.on('resonance', (resonance) => {
+        socket.broadcast.emit('resonance', resonance)
+    })
     
     socket.on("disconnect", () => {
         socketsConnected.delete(socket.id);
