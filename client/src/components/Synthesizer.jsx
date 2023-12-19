@@ -6,6 +6,7 @@ import UnisonSelect from "../components/synth_components/UnisonSelect";
 import AmpEnvelope from "../components/synth_components/AmpEnvelope";
 import FilterEnvelope from "../components/synth_components/FilterEnvelope";
 import Filter from "../components/synth_components/Filter";
+import Sequencer from "./Sequencer";
 
 import "./Synthesizer.css";
 
@@ -26,7 +27,6 @@ export default function Synthesizer(props) {
   const [cutoff, setCutoff] = useState(synth.filterEnvelope.baseFrequency);
   const [resonance, setResonance] = useState(synth.filter.Q.value);
   const [incomingBroadcast, setIncomingBroadcast] = useState(false);
-  const [socketTest, setSocketTest] = useState("");
 
   // Update synth using slider values
   useEffect(() => {
@@ -168,7 +168,7 @@ export default function Synthesizer(props) {
             setResonance={setResonance}
           />
         </section>
-        <h3>Test: {props.test}</h3>
+        <Sequencer sequence={props.sequence}/>
       </div>
     </>
   );
