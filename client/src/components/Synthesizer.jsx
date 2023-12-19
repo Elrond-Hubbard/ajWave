@@ -77,11 +77,11 @@ export default function Synthesizer(props) {
         cutoff,
         resonance,
       });
+      console.log("socket OUT")
     }
     setIncomingBroadcast(false);
     // retrieve broadcast synth state from server
     socket.on("synthStateChanged", (newSynthState) => {
-      setSocketTest(newSynthState.cutoff);
       setWaveform(newSynthState.waveform);
       setUnison(newSynthState.unison);
       setCount(newSynthState.count);
@@ -96,6 +96,7 @@ export default function Synthesizer(props) {
       setCutoff(newSynthState.cutoff);
       setResonance(newSynthState.resonance);
       setIncomingBroadcast(true);
+      console.log("socket IN")
     });
     return () => {
       // remove the event listener when the component unmounts
