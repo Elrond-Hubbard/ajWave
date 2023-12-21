@@ -12,6 +12,10 @@ export default function Sequencer(props) {
   const [isRecording, setIsRecording] = useState(false);
   const [sequence, setSequence] = useState([]);
 
+  const handleKeyDown = (event) => {
+    console.log('User pressed: ', event.key);
+  };
+
   const toggleRecord = () => {
     if (isRecording === false) {
       setIsRecording(true);
@@ -25,23 +29,26 @@ export default function Sequencer(props) {
   };
 
   const playSequence = () => {
-    props.sequence.start(0)
-    Tone.Transport.start(0)
-  }
+    props.sequencer.start(0);
+    Tone.Transport.start(0);
+  };
 
   if (isRecording === true) {
     keyboard.down((note) => {
       if (sequence.length < 16) {
         setSequence([...sequence, Tone.Frequency(note.frequency).toNote()]);
-      } else {
-        setSequence(sequence);
       }
+    });
+  } else {
+    // if not recording, set sequence to self to prevent trailing notes from being recorded
+    keyboard.down((note) => {
+      setSequence(sequence);
     });
   }
 
   useEffect(() => {
-    props.sequence.events = sequence
-  }, [sequence])
+    props.sequencer.events = sequence;
+  }, [sequence]);
 
   return (
     <>

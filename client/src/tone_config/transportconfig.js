@@ -5,7 +5,7 @@ const loop1 = [];
 const loop2 = [];
 const loop3 = [];
 
-const sequence1 = new Tone.Sequence(
+const sequencer1 = new Tone.Sequence(
   (time, note) => {
     synth1.triggerAttackRelease(note, "16n", time);
   },
@@ -13,7 +13,7 @@ const sequence1 = new Tone.Sequence(
   "16n"
 );
 
-const sequence2 = new Tone.Sequence(
+const sequencer2 = new Tone.Sequence(
   (time, note) => {
     synth2.triggerAttackRelease(note, "16n", time);
   },
@@ -21,7 +21,7 @@ const sequence2 = new Tone.Sequence(
   "16n"
 );
 
-const sequence3 = new Tone.Sequence(
+const sequencer3 = new Tone.Sequence(
   (time, note) => {
     synth3.triggerAttackRelease(note, "16n", time);
   },
@@ -29,4 +29,4 @@ const sequence3 = new Tone.Sequence(
   "16n"
 );
 
-export {sequence1, sequence2, sequence3}
+export {sequencer1, sequencer2, sequencer3}

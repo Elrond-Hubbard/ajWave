@@ -169,7 +169,7 @@ export default function Synthesizer(props) {
             setResonance={setResonance}
           />
         </section>
-        <Sequencer sequence={props.sequence}/>
+        <Sequencer sequencer={props.sequencer}/>
       </div>
     </>
   );

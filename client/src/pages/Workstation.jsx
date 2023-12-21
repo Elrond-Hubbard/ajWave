@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import "./index.css";
 
 import Synthesizer from "../components/Synthesizer";
-import Sequencer from "../components/Sequencer";
+
 import { synth1, synth2, synth3 } from "../tone_config/synthconfig";
-import { sequence1, sequence2, sequence3 } from "../tone_config/transportconfig";
+import { sequencer1, sequencer2, sequencer3 } from "../tone_config/transportconfig";
 
 import keyboard from "../tone_config/keyboardconfig";
 let currentKeyDown;
@@ -31,19 +31,19 @@ export default function Workstation() {
       <div className="px-5 d-flex justify-content-center">
         <Synthesizer
           synth={synth1}
-          sequence={sequence1}
+          sequencer={sequencer1}
           title="FMSYNTH"
           style={{ background: "lightsalmon" }}
         />
         <Synthesizer
           synth={synth2}
-          sequence={sequence2}
+          sequencer={sequencer2}
           title="MONOSYNTH"
           style={{ background: "lightblue" }}
         />
         <Synthesizer
           synth={synth3}
-          sequence={sequence3}
+          sequencer={sequencer3}
           title="AMSYNTH"
           style={{ background: "lightgreen" }}
         />
