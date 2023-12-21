@@ -13,7 +13,7 @@ export default function Sequencer(props) {
   const [sequence, setSequence] = useState([]);
 
   const handleKeyDown = (event) => {
-    console.log('User pressed: ', event.key);
+    console.log("User pressed: ", event.key);
   };
 
   const toggleRecord = () => {
@@ -33,6 +33,7 @@ export default function Sequencer(props) {
     Tone.Transport.start(0);
   };
 
+  
   if (isRecording === true) {
     keyboard.down((note) => {
       if (sequence.length < 16) {
@@ -46,9 +47,28 @@ export default function Sequencer(props) {
     });
   }
 
+  // The sequencer object's event array is updated when sequence state changes
   useEffect(() => {
     props.sequencer.events = sequence;
   }, [sequence]);
+
+  // When control key is pressed, a null value is pushed to the sequence array to produce rests
+  useEffect(() => {
+    const keyDownHandler = (event) => {
+      if (event.key === "Control") {
+        console.log("user pressed: ", event.key);
+        if (isRecording === true && sequence.length < 16) {
+          setSequence([...sequence, null]);
+        } else {
+          setSequence(sequence);
+        }
+      }
+    };
+    document.addEventListener("keydown", keyDownHandler);
+    return () => {
+      document.removeEventListener("keydown", keyDownHandler);
+    };
+  }, [sequence, isRecording]);
 
   return (
     <>
