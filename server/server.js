@@ -30,8 +30,14 @@ function onConnected(socket) {
     console.log(`${socketsConnected.size} clients connected.`)
     io.emit('login', socketsConnected.size)
 
-    socket.on('updateSynthState', (newSynthState) => {
-        socket.broadcast.emit('synthStateChanged', newSynthState)
+    socket.on('updateSynth1State', (newSynthState) => {
+        socket.broadcast.emit('synth1StateChanged', newSynthState)
+    })
+    socket.on('updateSynth2State', (newSynthState) => {
+        socket.broadcast.emit('synth2StateChanged', newSynthState)
+    })
+    socket.on('updateSynth3State', (newSynthState) => {
+        socket.broadcast.emit('synth3StateChanged', newSynthState)
     })
     
     socket.on("disconnect", () => {

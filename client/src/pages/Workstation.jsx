@@ -34,18 +34,21 @@ export default function Workstation() {
           sequencer={sequencer1}
           title="FMSYNTH"
           style={{ background: "lightsalmon" }}
+          synthNum="1"
         />
         <Synthesizer
           synth={synth2}
           sequencer={sequencer2}
           title="MONOSYNTH"
           style={{ background: "lightblue" }}
+          synthNum="2"
         />
         <Synthesizer
           synth={synth3}
           sequencer={sequencer3}
           title="AMSYNTH"
           style={{ background: "lightgreen" }}
+          synthNum="3"
         />
       </div>
     </>

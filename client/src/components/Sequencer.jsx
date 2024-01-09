@@ -26,6 +26,7 @@ export default function Sequencer(props) {
   };
 
   const toggleSequence = () => {
+    // When initializing the sequencer, also start the Transport to ensure accurate playback
     if (isPlaying === false) {
       props.sequencer.start(0);
       Tone.Transport.start(0);

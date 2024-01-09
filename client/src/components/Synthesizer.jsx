@@ -62,7 +62,7 @@ export default function Synthesizer(props) {
   useEffect(() => {
     // If there are no incoming broadcasts, send synth state to server
     if (!incomingBroadcast) {
-      socket.emit("updateSynthState", {
+      socket.emit(`updateSynth${props.synthNum}State`, {
         waveform,
         unison,
         count,
@@ -81,7 +81,7 @@ export default function Synthesizer(props) {
     }
     setIncomingBroadcast(false);
     // retrieve broadcast synth state from server
-    socket.on("synthStateChanged", (newSynthState) => {
+    socket.on(`synth${props.synthNum}StateChanged`, (newSynthState) => {
       setWaveform(newSynthState.waveform);
       setUnison(newSynthState.unison);
       setCount(newSynthState.count);
