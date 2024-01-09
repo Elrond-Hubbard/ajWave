@@ -8,7 +8,7 @@
     "build": "cd client && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server/server.js",
-    "dev": "concurrently \"cd server && npm start\" \"cd client && npm run dev\""
+    "develop": "concurrently \"cd server && npm start\" \"cd client && npm run dev\""
   },
   "keywords": [
     "Mongo",

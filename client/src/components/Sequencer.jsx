@@ -10,11 +10,8 @@ Tone.Transport.loopEnd = "1m";
 
 export default function Sequencer(props) {
   const [isRecording, setIsRecording] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false)
   const [sequence, setSequence] = useState([]);
-
-  const handleKeyDown = (event) => {
-    console.log("User pressed: ", event.key);
-  };
 
   const toggleRecord = () => {
     if (isRecording === false) {
@@ -28,12 +25,17 @@ export default function Sequencer(props) {
     setSequence([]);
   };
 
-  const playSequence = () => {
-    props.sequencer.start(0);
-    Tone.Transport.start(0);
+  const toggleSequence = () => {
+    if (isPlaying === false) {
+      props.sequencer.start(0);
+      Tone.Transport.start(0);
+      setIsPlaying(true)
+    } else {
+      props.sequencer.stop(0)
+      setIsPlaying(false)
+    }
   };
 
-  
   if (isRecording === true) {
     keyboard.down((note) => {
       if (sequence.length < 16) {
@@ -75,7 +77,7 @@ export default function Sequencer(props) {
       <div className="d-flex">
         <SequencerBtn text="REC" onClick={toggleRecord} />
         <SequencerBtn text="CLEAR" onClick={clearSequence} />
-        <SequencerBtn text="PLAY" onClick={playSequence} />
+        <SequencerBtn text="PLAY" onClick={toggleSequence} />
       </div>
       <p>SEQ: {sequence.toString()}</p>
       {isRecording === true && <p>REC</p>}

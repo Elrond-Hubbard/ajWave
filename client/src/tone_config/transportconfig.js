@@ -1,5 +1,5 @@
 import * as Tone from "tone";
-import {synth1, synth2, synth3} from "./synthconfig"
+import { synth1, synth2, synth3 } from "./synthconfig";
 
 const loop1 = [];
 const loop2 = [];
@@ -29,4 +29,4 @@ const sequencer3 = new Tone.Sequence(
   "16n"
 );
 
-export {sequencer1, sequencer2, sequencer3}
+export { sequencer1, sequencer2, sequencer3 };
